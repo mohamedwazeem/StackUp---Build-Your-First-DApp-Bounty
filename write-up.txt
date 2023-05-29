@@ -5,9 +5,25 @@ Quest Review Functionality:
 Reason: The quest review functionality allows the admin to evaluate and provide feedback on quest submissions by players. This feature adds an element of validation and quality control to the platform.
 How it works: After a player submits a quest, the admin can review the submission and update the status accordingly. The admin can reject, approve, or reward the submission based on their assessment. The admin's review comments are stored in the reviewComments field of the corresponding quest struct.
 
+How will work
+
+When a player submits a quest for evaluation, the admin can review the submission by calling the reviewQuest() function.
+The admin provides the quest ID, the desired status (reject, approve, or reward), and optional review comments.
+The smart contract checks if the admin is the caller and if the quest has already ended. If the quest is ongoing, the review is not allowed.
+Once reviewed, the player's quest status is updated to the provided status (REVIEWED, indicating admin review is complete).
+The admin's review comments are stored in the reviewComments field of the corresponding quest struct, providing feedback to the player.
+
 Quest Start and End Time:
 
 Reason: Introducing quest start and end times adds time-based restrictions to the platform, mimicking StackUp's real-time quest availability. This feature ensures that players can only join quests that are active and prevents joining quests that have already ended.
 How it works: Each quest struct now includes startTime and endTime fields, representing Unix timestamps. Before a player joins a quest, the contract checks if the current time is within the quest's start and end time range. If the quest has not started or has already ended, the player is not allowed to join.
+
+How will work
+
+Each quest struct now includes startTime and endTime fields representing Unix timestamps.
+When creating a quest, the admin sets the desired start and end times for the quest.
+Before a player can join a quest, the contract checks if the current time (retrieved using block.timestamp) is within the specified time range.
+If the current time is before the start time or after the end time, the player is not allowed to join the quest.
+This restriction ensures that players can only join quests that are currently active, enhancing the fairness and integrity of the platform.
 
 By incorporating these features, the smart contract replicates StackUp's functionalities more closely. The quest review functionality provides an evaluation mechanism for quest submissions, while the quest start and end time restrictions enforce real-time quest availability, enhancing the overall user experience and platform governance.
